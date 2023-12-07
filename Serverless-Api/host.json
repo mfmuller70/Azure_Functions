@@ -1,0 +1,77 @@
+{
+  "version": "2.0",
+  "aggregator": {
+    "batchSize": 1000,
+    "flushTimeout": "00:00:30"
+  },
+  "concurrency": { //performance
+    "dynamicConcurrencyEnabled": true,
+    "snapshotPersistenceEnabled": true
+  },
+  "healthMonitor": {   //acompanhar no monitor do azure os eventos
+    "enabled": true,
+    "healthCheckInterval": "00:00:10",
+    "healthCheckWindow": "00:02:00",
+    "healthCheckThreshold": 6,
+    "counterThreshold": 0.80
+  },
+  "logging": {
+    "applicationInsights": {
+      "samplingSettings": {
+        "isEnabled": true,
+        "excludedTypes": "Request"
+      }
+    }
+  },
+  "applicationInsights": {
+    "samplingSettings": {
+      "isEnabled": true,
+      "maxTelemetryItemsPerSecond": 20,
+      "evaluationInterval": "01:00:00",
+      "initialSamplingPercentage": 100.0,
+      "samplingPercentageIncreaseTimeout": "00:00:01",
+      "samplingPercentageDecreaseTimeout": "00:00:01",
+      "minSamplingPercentage": 0.1,
+      "maxSamplingPercentage": 100.0,
+      "movingAverageRatio": 1.0,
+      "excludedTypes": "Dependency;Event",
+      "includedTypes": "PageView;Trace"
+    },
+    "dependencyTrackingOptions": {
+      "enableSqlCommandTextInstrumentation": true
+    },
+    // ajuda tambem a monitorar custos
+    "enableLiveMetrics": true,
+    "enableDependencyTracking": true,
+    "enablePerformanceCountersCollection": true,
+    "httpAutoCollectionOptions": {
+      "enableHttpTriggerExtendedInfoCollection": true,
+      "enableW3CDistributedTracing": true,
+      "enableResponseHeaderInjection": true
+    },
+    "snapshotConfiguration": {
+      "agentEndpoint": null,
+      "captureSnapshotMemoryWeight": 0.5,
+      "failedRequestLimit": 3,
+      "handleUntrackedExceptions": true,
+      "isEnabled": true,
+      "isEnabledInDeveloperMode": false,
+      "isEnabledWhenProfiling": true,
+      "isExceptionSnappointsEnabled": false,
+      "isLowPrioritySnapshotUploader": true,
+      "maximumCollectionPlanSize": 50,
+      "maximumSnapshotsRequired": 3,
+      "problemCounterResetInterval": "24:00:00",
+      "provideAnonymousTelemetry": true, //não sei se tem custo a telemetria, teria que avaliar
+      "reconnectInterval": "00:15:00",
+      "shadowCopyFolder": null,
+      "shareUploaderProcess": true,
+      "snapshotInLowPriorityThread": true,
+      "snapshotsPerDayLimit": 30,
+      "snapshotsPerTenMinutesLimit": 1,
+      "tempFolder": null,
+      "thresholdForSnapshotting": 1,
+      "uploaderProxy": null
+    }
+  }
+}
