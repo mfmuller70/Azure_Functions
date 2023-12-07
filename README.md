@@ -1,15 +1,19 @@
 # Introduction 
-TODO: Give a short introduction of your project. Let this section explain the objectives or the motivation behind this project. 
+DESAFIO: aqui, gostamos de dar a oportunidade para que todos mostrem o seu trabalho na prática, afinal acreditamos em mais mão na massa e menos blábláblá. Então vamos juntar o útil ao agradável... Você já deve saber que a galera da Trinca costuma fazer churrascos sem justificativas, em dias aleatórios. Para facilitar o gerenciamento dos churras, algumas pessoas do time resolveram fazer um sistema nos horários vagos de demanda. Infelizmente, esses horários vagos não são tão frequentes assim e ainda há tarefas em aberto. Mas que sorte! Encontramos você e essa é uma ótima oportunidade de conhecermos o seu trabalho – e de quebra, quem sabe, possamos ter nossa solução de churras completa =) 
 
 # Getting Started
-TODO: Guide users through getting your code up and running on their own system. In this section you can talk about:
-1.	Installation process
-2.	Software dependencies
-3.	Latest releases
-4.	API references
+Ao desenvolver essa solução, você deve levar em conta que a aplicação terá um volume de utilização em torno de 1.000 usuários simultâneos
 
-# Build and Test
-TODO: Describe and show how to build your code and run the tests. 
+Instruções gerais:
+Baixe, instale e execute o emulador do cosmosDb
+O projeto requer a versão 7.0 do netcore
+Uma coleção do postman com os endpoints pode ser encontrada na raíz do projeto: https://github.com/trinca137/trinca-challenge
+Um arquivo com as variáveis de ambiente para serem importadas no postman também está na raíz do projeto.
+Entregue a avaliação, preferencialmente, pelo GitHub
+
+# Tips
+Cuidar a qualidade do código;
+Cuidar questões relacionadas a plágio, ou seja, realizar com autoria própria. 
 
 # Contribute
 TODO: Explain how other users and developers can contribute to make your code better. 
