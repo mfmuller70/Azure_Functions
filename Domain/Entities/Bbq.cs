@@ -9,26 +9,26 @@ namespace Domain.Entities
     public class Bbq : AggregateRoot
     {
         public string Reason { get; set; }
-        public BbqStatus Status { get; set; }
-        public DateTime Date { get; set; }
+        public BbqStatus BbqStatus { get; set; }
+        public DateTime BbqDate { get; set; }
         public bool IsTrincasPaying { get; set; }
         public int NumberPersonsConfirmation { get; set; }
-        public BbqShoppingList BbqShoppingList { get; set; } = new BbqShoppingList();
+        public List<BbqBasketList> BbqBasketList { get; set; } = new ();
 
         public void When(ThereIsSomeoneElseInTheMood @event)
         {
             Id = @event.Id.ToString();
-            Date = @event.Date;
+            BbqDate = @event.Date;
             Reason = @event.Reason;
-            Status = BbqStatus.New;
+            BbqStatus = BbqStatus.New;
         }
 
         public void When(BbqStatusUpdated @event)
         {
             if (@event.GonnaHappen)
-                Status = BbqStatus.PendingConfirmations;
+                BbqStatus = BbqStatus.PendingConfirmations;
             else 
-                Status = BbqStatus.ItsNotGonnaHappen;
+                BbqStatus = BbqStatus.ItsNotGonnaHappen;
 
             if (@event.TrincaWillPay)
                 IsTrincasPaying = true;
@@ -41,25 +41,30 @@ namespace Domain.Entities
             //deve ser retirado da lista de compras do churrasco.
 
             NumberPersonsConfirmation -= 1;
-            BbqShoppingList.Salad = @event.IsVeg ? -500 : -250; //gramas por pessoa
-            BbqShoppingList.Steak = @event.IsVeg ? 0 : -350; //gramas por pessoa
+            BbqBasketList bbqBasketList = new();
+            bbqBasketList.Salad = @event.IsVeg ? bbqBasketList.Salad = - 500 : bbqBasketList.Salad = - 250; //gramas por pessoa
+            bbqBasketList.Steak = @event.IsVeg ? 0 : bbqBasketList.Salad = -350; //gramas por pessoa
 
-            //Se ao rejeitar, o número de pessoas confirmadas no churrasco for menor que sete,
-            if (NumberPersonsConfirmation < 7 && Status != BbqStatus.PendingConfirmations)
-                Status = BbqStatus.PendingConfirmations;  //o churrasco deverá ter seu status atualizado para “Pendente de confirmações”.
+            BbqBasketList.Add(bbqBasketList);
+
+            if (NumberPersonsConfirmation < 7 && BbqStatus != BbqStatus.ItsNotGonnaHappen)
+                BbqStatus = BbqStatus.PendingConfirmations;  
 
         }
 
         public void When(InviteWasAccepted @event)
         {
             //Se ao rejeitar, o número de pessoas confirmadas no churrasco for menor que sete,
-            if (NumberPersonsConfirmation == 7 && Status == BbqStatus.Confirmed)
-                Status = BbqStatus.Confirmed;  //o churrasco deverá ter seu status atualizado para “Pendente de confirmações”.
+            if (NumberPersonsConfirmation == 7 && BbqStatus == BbqStatus.Confirmed)
+                BbqStatus = BbqStatus.Confirmed;  //o churrasco deverá ter seu status atualizado para “Pendente de confirmações”.
             else
             {
                 NumberPersonsConfirmation += 1;
-                BbqShoppingList.Salad = @event.IsVeg ? +500 : +250; //gramas por pessoa
-                BbqShoppingList.Steak = @event.IsVeg ? 0 : +350; //gramas por pessoa
+                BbqBasketList bbqBasketList = new();
+                bbqBasketList.Salad = @event.IsVeg ? bbqBasketList.Salad = +500 : bbqBasketList.Salad = +250; //gramas por pessoa
+                bbqBasketList.Steak = @event.IsVeg ? 0 : bbqBasketList.Salad = +350; //gramas por pessoa
+
+                BbqBasketList.Add(bbqBasketList);
             }
         }
 
@@ -68,11 +73,15 @@ namespace Domain.Entities
             return new
             {
                 Id,
-                Date,
+                BbqDate,
                 IsTrincasPaying,
-                Status = Status.ToString(),
+                Status = BbqStatus.ToString(),
                 NumberPersonsConfirmation,
-                BbqShoppingList
+                BbqBasketList = BbqBasketList.GroupBy(e => e.BbqId).Select(e => new
+                {
+                    Salad = e.Sum(e => e.Salad),
+                    Steak = e.Sum(e => e.Steak)
+                })
             };
         }
     }

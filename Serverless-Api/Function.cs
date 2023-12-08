@@ -25,6 +25,10 @@ namespace Serverless_Api
             public DateTime NoDia { get; set; }
         }
 
+
+        //-------
+        // não entendi muito bem se aqui era uma proposta para marcar, mas ja existe o getproposet
+        //
         [Function(nameof(RunChurrasQuando))]
         public async Task<HttpResponseData> RunChurrasQuando([HttpTrigger(AuthorizationLevel.Function, "get", Route = "churras/{id}")] HttpRequestData req, string id)
         {
