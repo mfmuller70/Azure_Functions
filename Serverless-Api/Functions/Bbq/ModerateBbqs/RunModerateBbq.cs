@@ -26,31 +26,38 @@ namespace Serverless_Api
         {
             try
             {
-                var bbq = await _repository.GetAsync(id);
                 var bbqWillHappen = await req.Body<ModerateBbqRequest>();
+                var bbqEvent = await _repository.GetAsync(id);
 
-                if (bbq != null)
-                {
-                    bbq.Apply(new BbqStatusUpdated(bbqWillHappen.GonnaHappen, bbqWillHappen.TrincaWillPay));
-                }
+                if (bbqEvent != null)
+                    bbqEvent.Apply(new BbqStatusUpdated(bbqWillHappen.GonnaHappen, bbqWillHappen.TrincaWillPay));
+                else
+                    return await req.CreateResponse(HttpStatusCode.NotFound, "Barbeque Event Not Founded");
                 
                 var lookups = await _snapshots.AsQueryable<Lookups>("Lookups").SingleOrDefaultAsync();
 
+                // if (lookups.)
                 //------LookupsHasBeenCreated
 
-                await _repository.SaveAsync(bbq);
+                await _repository.SaveAsync(bbqEvent);
 
-                lookups.PeopleIds.RemoveAll(item => lookups.ModeratorIds.Contains(item));
+                //lookups.PeopleIds.RemoveAll(item => lookups.ModeratorIds.Contains(item));
 
                 if (bbqWillHappen.GonnaHappen && bbqWillHappen.TrincaWillPay)
                 {
-                    lookups.PeopleIds.RemoveAll(item => lookups.ModeratorIds.Contains(item));
+                   // lookups.PeopleIds.RemoveAll(item => lookups.ModeratorIds.Contains(item));
                     foreach (var personId in lookups.PeopleIds)
                     {
-                        var person = await _persons.GetAsync(personId);
-                        var @event = new PersonHasBeenInvitedToBbq(bbq.Id, bbq.BbqDate, bbq.Reason);
-                        person.Apply(@event);
-                        await _persons.SaveAsync(person);
+                        var personsToInvite = await _persons.GetAsync(personId);
+                        if (personsToInvite != null)
+                        {
+                            var @event = new PersonHasBeenInvitedToBbq(bbqEvent.Id, bbqEvent.BbqDate, bbqEvent.Reason);
+                            personsToInvite.Apply(@event);
+                            await _persons.SaveAsync(personsToInvite);
+                        }
+                        else
+                            return await req.CreateResponse(HttpStatusCode.NotFound, "Barbeque Event Not Founded");
+
                     }
                 }
                 else
@@ -63,7 +70,7 @@ namespace Serverless_Api
                     }
                 }
 
-                return await req.CreateResponse(System.Net.HttpStatusCode.OK, bbq.TakeSnapshot());
+                return await req.CreateResponse(System.Net.HttpStatusCode.OK, bbqEvent.TakeSnapshot());
             }
             catch (Exception ex)
             {

@@ -20,9 +20,13 @@ namespace Serverless_Api
         private readonly SnapshotStore _snapshots;
         private readonly IPersonRepository _personRepository;
         private readonly IBbqRepository _bbqRepository;
+       // private readonly ILogger _logger;   
 
 
-        public RunCreateNewBbq(IPersonRepository personRepository, IBbqRepository bbqRepository, SnapshotStore snapshots, Person user)
+        public RunCreateNewBbq(IPersonRepository personRepository, 
+                    IBbqRepository bbqRepository, 
+                    SnapshotStore snapshots, 
+                    Person user)
         {
             _user = user;
             _snapshots = snapshots;
@@ -37,16 +41,13 @@ namespace Serverless_Api
         {
             try
             {
-                var input = await req.Body<NewBbqRequest>();
+                var BbqEventInformation = await req.Body<NewBbqRequest>();
 
-                if (input == null)
-                {
-                    //_logger.LogError("Error: RunCreateNewBbq", "input is required.");
-                    return await req.CreateResponse(HttpStatusCode.BadRequest, "input is required.");
-                }
+                if (BbqEventInformation == null)
+                    return await req.CreateResponse(HttpStatusCode.BadRequest, "Details about Barbeque is mandatory.");
 
                 var churras = new Bbq();
-                churras.Apply(new ThereIsSomeoneElseInTheMood(Guid.NewGuid(), input.Date, input.Reason, input.IsTrincasPaying));
+                churras.Apply(new ThereIsSomeoneElseInTheMood(Guid.NewGuid(), BbqEventInformation.Date, BbqEventInformation.Reason, BbqEventInformation.IsTrincasPaying));
 
                 var churrasSnapshot = churras.TakeSnapshot();
 
@@ -66,10 +67,7 @@ namespace Serverless_Api
                         await _personRepository.SaveAsync(PersonHasBeenInvitedToBbq);
                     }
                     else
-                    {
-                       // _logger.LogInformation("No Persons to Apply BbqId");
                         return await req.CreateResponse(HttpStatusCode.PreconditionFailed, "No Persons to Apply BbqId.");
-                    }
                 }
 
                 return await req.CreateResponse(HttpStatusCode.Created, churrasSnapshot);

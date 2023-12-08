@@ -31,11 +31,10 @@ namespace Serverless_Api
             try
             {
                 var inviteToVeg = await req.Body<InviteAnswer>();
-
                 var person = await _repository.GetAsync(_user.Id);
 
                 if (person == null)
-                    return req.CreateResponse(System.Net.HttpStatusCode.NoContent);
+                    return await req.CreateResponse(HttpStatusCode.NotFound, "Person not founded");
 
                 if (person.Invites.Where(o => o.Id == inviteId && o.InviteStatus == InviteStatus.Declined).Any())
                     return await req.CreateResponse(HttpStatusCode.Forbidden, "invitation has declined");
@@ -49,7 +48,7 @@ namespace Serverless_Api
                 bbq.Apply(@event);
                 await _bbqRepository.SaveAsync(bbq);
 
-                return await req.CreateResponse(System.Net.HttpStatusCode.OK, person.TakeSnapshot());
+                return await req.CreateResponse(HttpStatusCode.OK, person.TakeSnapshot());
             }
             catch (Exception ex)
             {
