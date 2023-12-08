@@ -30,7 +30,7 @@ namespace Serverless_Api
 
                 var @event = new InviteWasAccepted { InviteId = inviteId, IsVeg = inviteToVeg.IsVeg, PersonId = person.Id };
 
-                if (person.Invites.Where(o => o.Id == inviteId && o.Status == InviteStatus.Accepted).Any())
+                if (person.Invites.Where(o => o.Id == inviteId && o.InviteStatus == InviteStatus.Accepted).Any())
                     return await req.CreateResponse(HttpStatusCode.Forbidden, "invitation has already been accepted");
 
                 person.Apply(new InviteWasAccepted { InviteId = inviteId, IsVeg = inviteToVeg.IsVeg, PersonId = person.Id });
@@ -44,11 +44,12 @@ namespace Serverless_Api
                 if (bbq.NumberPersonsConfirmation == 7) //maximo de invites possiveis
                 {
                     bbq = await _bbqRepository.GetAsync(inviteId);
-                    bbq.Status = BbqStatus.Confirmed;
+                    bbq.BbqStatus = BbqStatus.Confirmed;
+
                     await _bbqRepository.SaveAsync(bbq);
                 }
 
-                return await req.CreateResponse(System.Net.HttpStatusCode.OK, person.TakeSnapshot());
+                return await req.CreateResponse(HttpStatusCode.OK, person.TakeSnapshot());
             }
             catch (Exception ex)
             {

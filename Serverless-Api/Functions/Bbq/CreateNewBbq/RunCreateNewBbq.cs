@@ -62,13 +62,13 @@ namespace Serverless_Api
 
                     if (PersonHasBeenInvitedToBbq != null)
                     {
-                        PersonHasBeenInvitedToBbq.Apply(new PersonHasBeenInvitedToBbq(churras.Id, churras.Date, churras.Reason));
+                        PersonHasBeenInvitedToBbq.Apply(new PersonHasBeenInvitedToBbq(churras.Id, churras.BbqDate, churras.Reason));
                         await _personRepository.SaveAsync(PersonHasBeenInvitedToBbq);
                     }
                     else
                     {
-                       // _logger.LogInformation("No Persons to Apply Bbq");
-                        return await req.CreateResponse(HttpStatusCode.PreconditionFailed, "No Persons to Apply Bbq.");
+                       // _logger.LogInformation("No Persons to Apply BbqId");
+                        return await req.CreateResponse(HttpStatusCode.PreconditionFailed, "No Persons to Apply BbqId.");
                     }
                 }
 

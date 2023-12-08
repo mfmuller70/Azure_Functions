@@ -37,7 +37,7 @@ namespace Serverless_Api
                 if (person == null)
                     return req.CreateResponse(System.Net.HttpStatusCode.NoContent);
 
-                if (person.Invites.Where(o => o.Id == inviteId && o.Status == InviteStatus.Declined).Any())
+                if (person.Invites.Where(o => o.Id == inviteId && o.InviteStatus == InviteStatus.Declined).Any())
                     return await req.CreateResponse(HttpStatusCode.Forbidden, "invitation has declined");
 
                 var @event = new InviteWasDeclined { InviteId = inviteId, PersonId = person.Id, IsVeg = inviteToVeg.IsVeg };

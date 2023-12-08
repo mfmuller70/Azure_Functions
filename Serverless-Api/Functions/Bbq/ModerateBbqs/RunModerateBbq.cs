@@ -33,9 +33,10 @@ namespace Serverless_Api
                 {
                     bbq.Apply(new BbqStatusUpdated(bbqWillHappen.GonnaHappen, bbqWillHappen.TrincaWillPay));
                 }
-
                 
                 var lookups = await _snapshots.AsQueryable<Lookups>("Lookups").SingleOrDefaultAsync();
+
+                //------LookupsHasBeenCreated
 
                 await _repository.SaveAsync(bbq);
 
@@ -47,7 +48,7 @@ namespace Serverless_Api
                     foreach (var personId in lookups.PeopleIds)
                     {
                         var person = await _persons.GetAsync(personId);
-                        var @event = new PersonHasBeenInvitedToBbq(bbq.Id, bbq.Date, bbq.Reason);
+                        var @event = new PersonHasBeenInvitedToBbq(bbq.Id, bbq.BbqDate, bbq.Reason);
                         person.Apply(@event);
                         await _persons.SaveAsync(person);
                     }

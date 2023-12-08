@@ -25,16 +25,16 @@ namespace Domain.Entities
             Invites = Invites.Append(new Invite
             {
                 Id = @event.Id,
-                Date = @event.Date,
-                Bbq = $"{@event.Date} - {@event.Reason}",
-                Status = InviteStatus.Pending
+                InviteDate = @event.Date,
+                BbqId = $"{@event.Date} - {@event.Reason}",
+                InviteStatus = InviteStatus.Pending
             });
         }
 
         public void When(InviteWasAccepted @event)
         {
             var invite = Invites.FirstOrDefault(x => x.Id == @event.InviteId);
-            invite.Status = InviteStatus.Accepted;
+            invite.InviteStatus = InviteStatus.Accepted;
         }
 
         public void When(InviteWasDeclined @event)
@@ -44,7 +44,7 @@ namespace Domain.Entities
             if (invite == null) 
                 return;
             
-            invite.Status = InviteStatus.Declined;
+            invite.InviteStatus = InviteStatus.Declined;
         }
 
         public object? TakeSnapshot()
@@ -54,9 +54,9 @@ namespace Domain.Entities
                 Id,
                 Name,
                 IsCoOwner,
-                Invites = Invites.Where(o => o.Status != InviteStatus.Declined)
-                                .Where(o => o.Date > DateTime.Now)
-                                .Select(o => new { o.Id, o.Bbq, Status = o.Status.ToString() })
+                Invites = Invites.Where(o => o.InviteStatus != InviteStatus.Declined)
+                                .Where(o => o.InviteDate > DateTime.Now)
+                                .Select(o => new { o.Id, o.BbqId, Status = o.InviteStatus.ToString() })
             };
         }
     }

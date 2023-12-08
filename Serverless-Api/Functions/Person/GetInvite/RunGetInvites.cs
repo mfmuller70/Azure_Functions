@@ -11,11 +11,13 @@ namespace Serverless_Api
     {
         private readonly Person _user;
         private readonly IPersonRepository _repository;
+        private readonly IBbqRepository _bbqs;
 
-        public RunGetInvites(Person user, IPersonRepository repository)
+        public RunGetInvites(Person user, IPersonRepository repository, IBbqRepository bbqs)
         {
             _user = user;
             _repository = repository;
+            _bbqs = bbqs;
         }
 
         [Function(nameof(RunGetInvites))]
@@ -23,12 +25,15 @@ namespace Serverless_Api
         {
             try
             {
-                var person = await _repository.GetAsync(_user.Id);
+                var snapshots = new List<object>();
+                var moderator = await _repository.GetAsync(_user.Id);
+                foreach (var bbqId in moderator.Invites.Where(i => i.InviteDate > DateTime.Now).Select(o => o.Id).ToList())
+                {
+                    var bbq = await _bbqs.GetAsync(bbqId);
+                    snapshots.Add(bbq.TakeSnapshot());
+                }
 
-                if (person == null)
-                    return req.CreateResponse(System.Net.HttpStatusCode.NoContent);
-
-                return await req.CreateResponse(System.Net.HttpStatusCode.OK, person.TakeSnapshot());
+                return await req.CreateResponse(HttpStatusCode.OK, snapshots);
             }
             catch (Exception ex)
             {

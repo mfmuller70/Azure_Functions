@@ -26,8 +26,8 @@ namespace Serverless_Api
             {
                 var snapshots = new List<object>();
                 var moderator = await _repository.GetAsync(_user.Id);
-                foreach (var bbqId in moderator.Invites.Where(i => i.Date > DateTime.Now).Select(o => o.Id).ToList())
-                //foreach (var bbqId in moderator.Invites.Where(i => i.Date > DateTime.Now && i.Status != InviteStatus.Declined).Select(o => o.Id).ToList())
+                foreach (var bbqId in moderator.Invites.Where(i => i.InviteDate > DateTime.Now).Select(o => o.Id).ToList())
+                //foreach (var bbqId in moderator.Invites.Where(i => i.InviteDate > DateTime.Now && i.InviteStatus != InviteStatus.Declined).Select(o => o.Id).ToList())
                 {
                     var bbq = await _bbqs.GetAsync(bbqId);
                     snapshots.Add(bbq.TakeSnapshot());
