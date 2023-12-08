@@ -16,8 +16,8 @@ namespace Serverless_Api
 {
     public partial class RunCreateNewBbq
     {
-        private readonly Person _user;
-        private readonly SnapshotStore _snapshots;
+        private readonly Person _person;
+        private readonly SnapshotStore _snapshotStore;
         private readonly IPersonRepository _personRepository;
         private readonly IBbqRepository _bbqRepository;
        // private readonly ILogger _logger;   
@@ -25,11 +25,11 @@ namespace Serverless_Api
 
         public RunCreateNewBbq(IPersonRepository personRepository, 
                     IBbqRepository bbqRepository, 
-                    SnapshotStore snapshots, 
-                    Person user)
+                    SnapshotStore snapshotStore, 
+                    Person person)
         {
-            _user = user;
-            _snapshots = snapshots;
+            _person = person;
+            _snapshotStore = snapshotStore;
             _bbqRepository= bbqRepository;
             _personRepository= personRepository;
         }
@@ -51,11 +51,11 @@ namespace Serverless_Api
 
                 var churrasSnapshot = churras.TakeSnapshot();
 
-                var Lookups = await _snapshots.AsQueryable<Lookups>("Lookups").SingleOrDefaultAsync();
+                var Lookups = await _snapshotStore.AsQueryable<Lookups>("Lookups").SingleOrDefaultAsync();
 
                 await _bbqRepository.SaveAsync(churras);
 
-                //_logger.LogInformation("churras Apply OK");
+                //LookupsHasBeenCreated
 
                 foreach (var personId in Lookups.ModeratorIds)
                 {

@@ -11,17 +11,20 @@ namespace Serverless_Api
 {
     public partial class RunGetInvites
     {
-        private readonly Person _user;
-        private readonly IPersonRepository _repository;
-        private readonly IBbqRepository _bbqs;
-        private readonly SnapshotStore _snapshots;
+        private readonly Person _person;
+        private readonly IPersonRepository _personRepository;
+        private readonly IBbqRepository _bbqRepository;
+        private readonly SnapshotStore _snapshotStore;
 
-        public RunGetInvites(Person user, IPersonRepository repository, IBbqRepository bbqs, SnapshotStore snapshots)
+        public RunGetInvites(Person user, 
+                                IPersonRepository personRepository, 
+                                IBbqRepository bbqRepository, 
+                                SnapshotStore snapshotStore)
         {
-            _user = user;
-            _repository = repository;
-            _bbqs = bbqs;
-            _snapshots = snapshots;
+            _person = user;
+            _personRepository = personRepository;
+            _bbqRepository = bbqRepository;
+            _snapshotStore = snapshotStore;
         }
 
         [Function(nameof(RunGetInvites))]
@@ -32,17 +35,16 @@ namespace Serverless_Api
 
             try
             {
-                var InvitesList = await _repository.GetAsync(_user.Id);
+                var InvitesList = await _personRepository.GetAsync(_person.Id);
 
                 if (InvitesList != null)
                 {
                     foreach (var bbqId in InvitesList.Invites.Where(i => i.InviteDate > DateTime.Now).Select(o => o.Id).ToList())
                     {
-                        var bbqEvent = await _bbqs.GetAsync(bbqId);
-                        if (bbqEvent != null)
+                        var bbqEvent = await _bbqRepository.GetAsync(bbqId);
+                        if (bbqEvent == null)
                             return await req.CreateResponse(HttpStatusCode.NotFound, "Barbeque Event Not Founded");
                         else
-                           // _snapshots AsQueryable<Bbq>("Bbq").ToListAsync();
                             NewInvitesList.Add(bbqEvent.TakeSnapshot());
                     }
                 }

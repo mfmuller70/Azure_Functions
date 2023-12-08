@@ -13,8 +13,7 @@ namespace Domain.Entities
         public DateTime BbqDate { get; set; }
         public bool IsTrincasPaying { get; set; }
         public int NumberPersonsConfirmation { get; set; }
-        public double Steak { get; set; }
-        public double Salad { get; set; }
+        public List<BbqBasketList> BbqBasketList { get; set; } = new ();
 
         public void When(ThereIsSomeoneElseInTheMood @event)
         {
@@ -42,12 +41,14 @@ namespace Domain.Entities
             //deve ser retirado da lista de compras do churrasco.
 
             NumberPersonsConfirmation -= 1;
-            Salad = @event.IsVeg ? Salad = - 500 : Salad = - 250; //gramas por pessoa
-            Steak = @event.IsVeg ? 0 :  Salad = -350; //gramas por pessoa
+            BbqBasketList bbqBasketList = new();
+            bbqBasketList.Salad = @event.IsVeg ? bbqBasketList.Salad = - 500 : bbqBasketList.Salad = - 250; //gramas por pessoa
+            bbqBasketList.Steak = @event.IsVeg ? 0 : bbqBasketList.Salad = -350; //gramas por pessoa
 
-            //Se ao rejeitar, o número de pessoas confirmadas no churrasco for menor que sete,
-            if (NumberPersonsConfirmation < 7 && BbqStatus != BbqStatus.PendingConfirmations)
-                BbqStatus = BbqStatus.PendingConfirmations;  //o churrasco deverá ter seu status atualizado para “Pendente de confirmações”.
+            BbqBasketList.Add(bbqBasketList);
+
+            if (NumberPersonsConfirmation < 7 && BbqStatus != BbqStatus.ItsNotGonnaHappen)
+                BbqStatus = BbqStatus.PendingConfirmations;  
 
         }
 
@@ -59,8 +60,11 @@ namespace Domain.Entities
             else
             {
                 NumberPersonsConfirmation += 1;
-                Salad = @event.IsVeg ? Salad = + 500 : Salad = +250; //gramas por pessoa
-                Steak = @event.IsVeg ? 0 : Salad = +350; //gramas por pessoa
+                BbqBasketList bbqBasketList = new();
+                bbqBasketList.Salad = @event.IsVeg ? bbqBasketList.Salad = +500 : bbqBasketList.Salad = +250; //gramas por pessoa
+                bbqBasketList.Steak = @event.IsVeg ? 0 : bbqBasketList.Salad = +350; //gramas por pessoa
+
+                BbqBasketList.Add(bbqBasketList);
             }
         }
 
@@ -73,7 +77,11 @@ namespace Domain.Entities
                 IsTrincasPaying,
                 Status = BbqStatus.ToString(),
                 NumberPersonsConfirmation,
-                Salad, Steak
+                BbqBasketList = BbqBasketList.GroupBy(e => e.BbqId).Select(e => new
+                {
+                    Salad = e.Sum(e => e.Salad),
+                    Steak = e.Sum(e => e.Steak)
+                })
             };
         }
     }
