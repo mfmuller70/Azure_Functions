@@ -9,7 +9,7 @@ Infelizmente, esses horários vagos não são tão frequentes assim e ainda há 
 
 Mas que sorte! Encontramos você e essa é uma ótima oportunidade de conhecermos o seu trabalho – e de quebra, quem sabe, possamos ter nossa solução de churras completa =) 
 
-# Getting Started
+# Instructions
 Ao desenvolver essa solução, você deve levar em conta que a aplicação terá um volume de utilização em torno de 1.000 usuários simultâneos
 
 Instruções gerais:
