@@ -1,5 +1,6 @@
 # Introduction 
 ![Fluxograma](URL_da_Imagem)
+
 DESAFIO: aqui, gostamos de dar a oportunidade para que todos mostrem o seu trabalho na prática, afinal acreditamos em mais mão na massa e menos blábláblá. 
 
 Então vamos juntar o útil ao agradável... Você já deve saber que a galera da Trinca costuma fazer churrascos sem justificativas, em dias aleatórios. 
