@@ -1,5 +1,5 @@
 # Introduction 
-![Fluxograma]([URL_da_Imagem](https://github.com/mfmuller70/trinca-challenge/edit/main/MicrosoftTeams-image.png))
+![Fluxograma](MicrosoftTeams-image.png)
 
 DESAFIO: aqui, gostamos de dar a oportunidade para que todos mostrem o seu trabalho na prática, afinal acreditamos em mais mão na massa e menos blábláblá. 
 
