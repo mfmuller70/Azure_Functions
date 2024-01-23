@@ -1,4 +1,6 @@
 # Introduction 
+![Fluxograma](MicrosoftTeams-image.png)
+
 DESAFIO: aqui, gostamos de dar a oportunidade para que todos mostrem o seu trabalho na prática, afinal acreditamos em mais mão na massa e menos blábláblá. 
 
 Então vamos juntar o útil ao agradável... Você já deve saber que a galera da Trinca costuma fazer churrascos sem justificativas, em dias aleatórios. 
@@ -9,7 +11,7 @@ Infelizmente, esses horários vagos não são tão frequentes assim e ainda há 
 
 Mas que sorte! Encontramos você e essa é uma ótima oportunidade de conhecermos o seu trabalho – e de quebra, quem sabe, possamos ter nossa solução de churras completa =) 
 
-# Getting Started
+# Instructions
 Ao desenvolver essa solução, você deve levar em conta que a aplicação terá um volume de utilização em torno de 1.000 usuários simultâneos
 
 Instruções gerais:
@@ -29,4 +31,3 @@ TODO: Explain how other users and developers can contribute to make your code be
 If you want to learn more about creating good readme files then refer the following [guidelines](https://docs.microsoft.com/en-us/azure/devops/repos/git/create-a-readme?view=azure-devops). You can also seek inspiration from the below readme files:
 - [ASP.NET Core](https://github.com/aspnet/Home)
 - [Visual Studio Code](https://github.com/Microsoft/vscode)
-- [Chakra Core](https://github.com/Microsoft/ChakraCore)

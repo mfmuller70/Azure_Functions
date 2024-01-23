@@ -14,14 +14,16 @@ namespace Serverless_Api
 {
     public partial class RunDeclineInvite
     {
-        private readonly Person _user;
-        private readonly IPersonRepository _repository;
+        private readonly Person _person;
+        private readonly IPersonRepository _personRepository;
         private readonly IBbqRepository _bbqRepository;
 
-        public RunDeclineInvite(Person user, IPersonRepository repository, IBbqRepository bbqRepository)
+        public RunDeclineInvite(Person person, 
+                                IPersonRepository personRepository, 
+                                IBbqRepository bbqRepository)
         {
-            _user = user;
-            _repository = repository;
+            _person = person;
+            _personRepository = personRepository;
             _bbqRepository = bbqRepository;
         }
 
@@ -31,25 +33,28 @@ namespace Serverless_Api
             try
             {
                 var inviteToVeg = await req.Body<InviteAnswer>();
-
-                var person = await _repository.GetAsync(_user.Id);
+                var person = await _personRepository.GetAsync(_person.Id);
 
                 if (person == null)
-                    return req.CreateResponse(System.Net.HttpStatusCode.NoContent);
+                    return await req.CreateResponse(HttpStatusCode.NotFound, "Person not founded");
 
-                if (person.Invites.Where(o => o.Id == inviteId && o.Status == InviteStatus.Declined).Any())
+                if (person.Invites.Where(o => o.Id == inviteId && o.InviteStatus == InviteStatus.Declined).Any())
                     return await req.CreateResponse(HttpStatusCode.Forbidden, "invitation has declined");
 
                 var @event = new InviteWasDeclined { InviteId = inviteId, PersonId = person.Id, IsVeg = inviteToVeg.IsVeg };
 
                 person.Apply(@event);
-                await _repository.SaveAsync(person);
+                await _personRepository.SaveAsync(person);
 
                 var bbq = await _bbqRepository.GetAsync(inviteId);
+
+                if (bbq.NumberPersonsConfirmation < 7)
+                    bbq.BbqStatus = BbqStatus.PendingConfirmations;
+
                 bbq.Apply(@event);
                 await _bbqRepository.SaveAsync(bbq);
 
-                return await req.CreateResponse(System.Net.HttpStatusCode.OK, person.TakeSnapshot());
+                return await req.CreateResponse(HttpStatusCode.OK, person.TakeSnapshot());
             }
             catch (Exception ex)
             {

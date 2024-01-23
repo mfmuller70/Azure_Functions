@@ -83,8 +83,14 @@ namespace Domain
             new Person { Id = "171f9858-ddb1-4adf-886b-2ea36e0f0644", Name = "Marcos Oliveira", IsCoOwner = true },
             new Person { Id = "3f74e6bd-11b2-4d48-a294-239a7a2ce7d5", Name = "Gustavo Sanfoninha", IsCoOwner = true },
             new Person { Id = "795fc8f2-1473-4f19-b33e-ade1a42ed123", Name = "Alexandre Morales", IsCoOwner = false },
-            new Person { Id = "addd0967-6e16-4328-bab1-eec63bf31968", Name = "Leandro Espera", IsCoOwner = false }
+            new Person { Id = "addd0967-6e16-4328-bab1-eec63bf31968", Name = "Leandro Espera", IsCoOwner = false },
+            new Person { Id = "2282b4ce-3b73-444b-9c23-8ab63e77f7bb", Name = "John Doe Barbeque 1", IsCoOwner = false },
+            new Person { Id = "4429b852-0064-465f-aad0-47c451ff4f4b", Name = "John Doe Barbeque 1", IsCoOwner = false },
+            new Person { Id = "acdf28bf-c970-4721-8d43-510a3956b4be", Name = "Jane Doe Barbeque 1", IsCoOwner = false },
+            new Person { Id = "3cc2db11-531b-4082-b069-2e954cef471e", Name = "Jane Doe Barbeque 1", IsCoOwner = false },
+            new Person { Id = "cdd4c028-b6ef-4b48-bcb6-da6da9755a2e", Name = "John Doe Barbeque 1", IsCoOwner = false },
         };
       
     }
 }
+

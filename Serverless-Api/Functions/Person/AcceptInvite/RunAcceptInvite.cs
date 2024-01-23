@@ -9,14 +9,15 @@ namespace Serverless_Api
 {
     public partial class RunAcceptInvite
     {
-        private readonly Person _user;
-        private readonly IPersonRepository _repository;
+        private readonly Person _person;
+        private readonly IPersonRepository _personRepository;
         private readonly IBbqRepository _bbqRepository;
-        public RunAcceptInvite(IPersonRepository repository, Person user,
-                               IBbqRepository bbqRepository)
+        public RunAcceptInvite(IPersonRepository personRepository, 
+                                Person person,
+                                IBbqRepository bbqRepository)
         {
-            _user = user;
-            _repository = repository;
+            _person = person;
+            _personRepository = personRepository;
             _bbqRepository = bbqRepository;
         }
 
@@ -26,29 +27,25 @@ namespace Serverless_Api
             try
             {
                 var inviteToVeg = await req.Body<InviteAnswer>();
-                var person = await _repository.GetAsync(_user.Id);
+                var person = await _personRepository.GetAsync(_person.Id);
 
                 var @event = new InviteWasAccepted { InviteId = inviteId, IsVeg = inviteToVeg.IsVeg, PersonId = person.Id };
 
-                if (person.Invites.Where(o => o.Id == inviteId && o.Status == InviteStatus.Accepted).Any())
+                if (person.Invites.Where(o => o.Id == inviteId && o.InviteStatus == InviteStatus.Accepted).Any())
                     return await req.CreateResponse(HttpStatusCode.Forbidden, "invitation has already been accepted");
 
-                person.Apply(new InviteWasAccepted { InviteId = inviteId, IsVeg = inviteToVeg.IsVeg, PersonId = person.Id });
-
-                await _repository.SaveAsync(person);
+                person.Apply(@event);
+                await _personRepository.SaveAsync(person);
 
                 var bbq = await _bbqRepository.GetAsync(inviteId);
+
+                if (bbq.NumberPersonsConfirmation == 7) //maximo de invites possiveis
+                    bbq.BbqStatus = BbqStatus.Confirmed;
+
                 bbq.Apply(@event);
                 await _bbqRepository.SaveAsync(bbq);
 
-                if (bbq.NumberPersonsConfirmation == 7) //maximo de invites possiveis
-                {
-                    bbq = await _bbqRepository.GetAsync(inviteId);
-                    bbq.Status = BbqStatus.Confirmed;
-                    await _bbqRepository.SaveAsync(bbq);
-                }
-
-                return await req.CreateResponse(System.Net.HttpStatusCode.OK, person.TakeSnapshot());
+                return await req.CreateResponse(HttpStatusCode.OK, person.TakeSnapshot());
             }
             catch (Exception ex)
             {

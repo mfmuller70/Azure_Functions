@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
     <AzureFunctionsVersion>v4</AzureFunctionsVersion>
@@ -7,6 +7,9 @@
     <Nullable>enable</Nullable>
     <RootNamespace>Serverless_Api</RootNamespace>
   </PropertyGroup>
+  <ItemGroup>
+    <None Remove="Desafio técnico.postman_collection_v2.json" />
+  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Azure.Messaging.ServiceBus" Version="7.17.1" />
     <PackageReference Include="log4net" Version="2.0.15" />
