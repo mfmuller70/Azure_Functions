@@ -30,7 +30,7 @@ namespace Domain.Entities
             else 
                 BbqStatus = BbqStatus.ItsNotGonnaHappen;
 
-            if (@event.TrincaWillPay)
+            if (@event.ValidWillPay)
                 IsTrincasPaying = true;
         }
 

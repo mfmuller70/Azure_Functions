@@ -47,7 +47,7 @@ namespace Serverless_Api
                     return await req.CreateResponse(HttpStatusCode.BadRequest, "Details about Barbeque is mandatory.");
 
                 var churras = new Bbq();
-                churras.Apply(new ThereIsSomeoneElseInTheMood(Guid.NewGuid(), BbqEventInformation.Date, BbqEventInformation.Reason, BbqEventInformation.IsTrincasPaying));
+                churras.Apply(new ThereIsSomeoneElseInTheMood(Guid.NewGuid(), BbqEventInformation.Date, BbqEventInformation.Reason, BbqEventInformation.IsValidPaying));
 
                 var churrasSnapshot = churras.TakeSnapshot();
 

@@ -53,7 +53,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"GonnaHappen\": true,\r\n    \"TrincaWillPay\": true\r\n}",
+					"raw": "{\r\n    \"GonnaHappen\": true,\r\n    \"ValidWillPay\": true\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"

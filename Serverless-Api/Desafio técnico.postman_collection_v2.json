@@ -284,7 +284,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"GonnaHappen\": false,\r\n    \"TrincaWillPay\": false\r\n}",
+					"raw": "{\r\n    \"GonnaHappen\": false,\r\n    \"ValidWillPay\": false\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"

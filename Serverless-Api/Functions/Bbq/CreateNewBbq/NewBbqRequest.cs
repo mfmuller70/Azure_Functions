@@ -4,16 +4,16 @@
     {
         public class NewBbqRequest
         {
-            public NewBbqRequest(DateTime date, string reason, bool isTrincaPaying)
+            public NewBbqRequest(DateTime date, string reason, bool isValidPaying)
             {
                 Date = date;
                 Reason = reason;
-                IsTrincasPaying = isTrincaPaying;
+                IsValidPaying = isValidPaying;
             }
 
             public DateTime Date { get; set; }
             public string Reason { get; set; }
-            public bool IsTrincasPaying { get; set; }
+            public bool IsValidPaying { get; set; }
         }
     }
 }

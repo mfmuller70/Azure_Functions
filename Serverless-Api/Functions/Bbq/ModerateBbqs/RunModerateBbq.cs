@@ -45,7 +45,7 @@ namespace Serverless_Api
                         return await req.CreateResponse(HttpStatusCode.NotFound, "Barbeque Event Not Founded to moderate");
                     else
                     {
-                        var @event = new BbqStatusUpdated { GonnaHappen = bbqWillHappen.GonnaHappen, TrincaWillPay = bbqWillHappen.TrincaWillPay };
+                        var @event = new BbqStatusUpdated { GonnaHappen = bbqWillHappen.GonnaHappen, ValidWillPay = bbqWillHappen.ValidWillPay };
                         if (bbqWillHappen.GonnaHappen)
                             bbqEvent.BbqStatus = BbqStatus.Confirmed;
                         else
@@ -67,7 +67,7 @@ namespace Serverless_Api
 
                 //await _bbqRepository.SaveAsync(bbqEvent);
 
-                //if (bbqWillHappen.GonnaHappen && bbqWillHappen.TrincaWillPay)
+                //if (bbqWillHappen.GonnaHappen && bbqWillHappen.ValidWillPay)
                 //{
                 //    foreach (var personId in lookups.PeopleIds.Count())
                 //    {
