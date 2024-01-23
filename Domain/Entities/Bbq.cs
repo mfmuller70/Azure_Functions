@@ -54,9 +54,9 @@ namespace Domain.Entities
 
         public void When(InviteWasAccepted @event)
         {
-            //Se ao rejeitar, o número de pessoas confirmadas no churrasco for menor que sete,
+            //coloquei 7 como numero de pessoas maximas
             if (NumberPersonsConfirmation == 7 && BbqStatus == BbqStatus.Confirmed)
-                BbqStatus = BbqStatus.Confirmed;  //o churrasco deverá ter seu status atualizado para “Pendente de confirmações”.
+                BbqStatus = BbqStatus.Confirmed;  //churrasco - status atualizado para “Pendente de confirmações”.
             else
             {
                 NumberPersonsConfirmation += 1;
