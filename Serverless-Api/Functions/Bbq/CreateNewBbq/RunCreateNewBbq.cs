@@ -74,9 +74,9 @@ namespace Serverless_Api
             }
             catch (Exception ex)
             {
-                //podiamos usar um REDIS para construir msgs customizadas (ja fiz isso em outro proejto)
-               // _logger.LogError("RunCreateNewBbq",ex.Message.ToString(), ex.StackTrace);
-                return await req.CreateResponse(HttpStatusCode.InternalServerError, ex.Message.ToString()); //teriamos que tratar somente os tipos de erros
+                //podiamos usar um REDIS para construir msgs customizadas
+                // _logger.LogError("RunCreateNewBbq",ex.Message.ToString(), ex.StackTrace);
+                return await req.CreateResponse(HttpStatusCode.InternalServerError, ex.Message.ToString()); //tratar somente os tipos de erros
                 //await deadLetterMessages.AddAsync(new DeadLetterMessage { Exception = ex, EventData = message });
                 //aqui teriamos o controle de messages que não subiram por algum tipo de erro
             }

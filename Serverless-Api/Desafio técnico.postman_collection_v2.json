@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "6973cf37-de16-4ce6-98c1-0904f0f1ceb2",
-		"name": "Desafio técnico",
+		"name": "Valid P&D",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -83,7 +83,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"date\": \"2023-12-20T18:00:00\",\r\n    \"reason\": \"Comemorar a entrada do novo dev back da mitsui\",\r\n    \"isTrincasPaying\": true\r\n}",
+					"raw": "{\r\n    \"date\": \"2023-12-20T18:00:00\",\r\n    \"reason\": \"Comemorar a entrada do novo dev back da mitsui\",\r\n    \"isValidPaying\": true\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"

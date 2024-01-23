@@ -18,7 +18,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"date\": \"2024-02-20T18:00:00\",\r\n    \"reason\": \"mais um Churras do Muller para Trinca\",\r\n    \"isTrincasPaying\": true\r\n}",
+					"raw": "{\r\n    \"date\": \"2024-02-20T18:00:00\",\r\n    \"reason\": \"mais um Churras do Muller\",\r\n    \"isValidPaying\": true\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"

@@ -11,7 +11,7 @@ namespace Domain.Entities
         public string Reason { get; set; }
         public BbqStatus BbqStatus { get; set; }
         public DateTime BbqDate { get; set; }
-        public bool IsTrincasPaying { get; set; }
+        public bool IsValidPaying { get; set; }
         public int NumberPersonsConfirmation { get; set; }
         public List<BbqBasketList> BbqBasketList { get; set; } = new ();
 
@@ -31,7 +31,7 @@ namespace Domain.Entities
                 BbqStatus = BbqStatus.ItsNotGonnaHappen;
 
             if (@event.ValidWillPay)
-                IsTrincasPaying = true;
+                IsValidPaying = true;
         }
 
         public void When(InviteWasDeclined @event)
@@ -74,7 +74,7 @@ namespace Domain.Entities
             {
                 Id,
                 BbqDate,
-                IsTrincasPaying,
+                IsValidPaying,
                 Status = BbqStatus.ToString(),
                 NumberPersonsConfirmation,
                 BbqBasketList = BbqBasketList.GroupBy(e => e.BbqId).Select(e => new
