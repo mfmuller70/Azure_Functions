@@ -1,6 +1,7 @@
 # Introduction 
 ![Fluxograma](MicrosoftTeams-image.png)
 
+
 # Instructions
 bla-bla-bla .....a aplicação terá um volume de utilização em torno de 1.000 usuários simultâneos
 
